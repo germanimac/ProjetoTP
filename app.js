@@ -5,10 +5,10 @@ var consign = require('consign');
 
 
 app.set('view engine', 'ejs');
-app.set('views', './app/view');
+app.set('views', process.cwd()+'/app/view');
 
 
-app.use(express.static('./app/public'));
+app.use(express.static(process.cwd()+'/app/public'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: false
@@ -22,12 +22,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.listen(8000, function () {
-  console.log('Example app listening on port 8000!')
-});
+app.listen(process.env.PORT || 5000);
+
 
 consign()
-    .include('app/routes')
-    .then('app/controller')
-    .into(app);
+	.include( process.cwd()+'/routes')
+	.then( process.cwd()+'/controller')
+	.into(app);
 module.exports = app;
